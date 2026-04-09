@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>백엔드 포트폴리오</title>
+    <meta
+      name="description"
+      content="정합성, 성능, 배치, 캐시, 정산 모델링을 수치와 문서로 설명하는 백엔드 개발 포트폴리오"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./script.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top">
+          <span class="brand-mark">BP</span>
+          <span class="brand-text">Backend Portfolio</span>
+        </a>
+        <nav class="nav">
+          <a href="#career">경력</a>
+          <a href="#projects">프로젝트</a>
+          <a href="#cases">기술 사례</a>
+          <a href="#workflow">구성 원칙</a>
+          <a href="#contact">배포</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero reveal">
+          <div class="hero-copy">
+            <p class="eyebrow">신입 포지션 지원용 백엔드 포트폴리오</p>
+            <h1>문제를 설계 경계로 다시 정의하는 백엔드 개발자</h1>
+            <p class="hero-body">
+              인증/인가와 정산 흐름을 실무에서 다뤘고, 개인 프로젝트에서는 차트, 피드,
+              배치, 캐시, 외부 지급 같은 read-heavy 시스템과 정합성 문제를 직접
+              설계하고 검증했습니다. 단순히 기술을 나열하기보다 왜 그 구조가
+              필요했는지, 어떤 수치로 개선을 확인했는지를 문서와 코드로 설명하는
+              포트폴리오를 지향합니다.
+            </p>
+
+            <div class="hero-actions">
+              <a class="button button-primary" href="#projects">대표 프로젝트 보기</a>
+              <a class="button button-secondary" href="https://github.com/kangjoo2002" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+
+            <ul class="proof-strip">
+              <li>실무 경험 7개월</li>
+              <li>대표 개인 프로젝트 2개</li>
+              <li>기술 문서 중심 포트폴리오</li>
+              <li>로컬/테스트 수치 명시</li>
+            </ul>
+          </div>
+
+          <aside class="hero-panel reveal">
+            <div class="panel-label">핵심 증빙</div>
+            <div class="metric-grid">
+              <article class="metric-card">
+                <span class="metric-value">65,421ms → 178ms</span>
+                <span class="metric-label">Hipster 차트 조회</span>
+              </article>
+              <article class="metric-card">
+                <span class="metric-value">806ms → 20ms</span>
+                <span class="metric-label">평점 집계 조회</span>
+              </article>
+              <article class="metric-card">
+                <span class="metric-value">29s → 45ms</span>
+                <span class="metric-label">SNS 피드 기본 쿼리</span>
+              </article>
+              <article class="metric-card">
+                <span class="metric-value">34.3/s → 79.1/s</span>
+                <span class="metric-label">수평 확장 처리량</span>
+              </article>
+            </div>
+            <p class="panel-note">모든 성능 수치는 문서에 명시한 로컬/테스트 환경 기준입니다.</p>
+          </aside>
+        </section>
+
+        <section class="section intro reveal">
+          <div class="section-heading">
+            <p class="eyebrow">포지셔닝</p>
+            <h2>채용 담당자에게 보여주고 싶은 역량</h2>
+          </div>
+
+          <div class="pillar-grid">
+            <article class="pillar-card">
+              <h3>읽기 성능 최적화</h3>
+              <p>읽기 모델 분리, 인덱스 전략, 캐시 계층, 검색 계층 분리로 병목을 다시 정의합니다.</p>
+            </article>
+            <article class="pillar-card">
+              <h3>정합성과 상태 모델링</h3>
+              <p>차트 공개 버전, 적립 원장, 정산 요청 상태처럼 운영 중 설명 가능한 경계를 우선합니다.</p>
+            </article>
+            <article class="pillar-card">
+              <h3>운영 가능한 배치</h3>
+              <p>배치는 단순히 빠른 실행보다 재시작 가능성, 직접 쓰기 범위 축소, downstream 책임 분리를 먼저 고민합니다.</p>
+            </article>
+            <article class="pillar-card">
+              <h3>문서화와 검증</h3>
+              <p>구조 변경의 이유와 결과를 문서로 남기고, 수치의 조건과 한계를 함께 밝히는 방식으로 포트폴리오를 구성합니다.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="career" class="section reveal">
+          <div class="section-heading">
+            <p class="eyebrow">Career</p>
+            <h2>실무 경험</h2>
+          </div>
+
+          <article class="timeline-card">
+            <div class="timeline-head">
+              <div>
+                <h3>이큐비알홀딩스 서버팀</h3>
+                <p class="timeline-role">인턴/수습 · 백엔드/서버개발</p>
+              </div>
+              <span class="timeline-period">2025.02 ~ 2025.08 · 7개월</span>
+            </div>
+            <p class="timeline-summary">
+              B2B·B2C 금융 플랫폼 웹 서비스의 백엔드 개발 및 운영을 담당했습니다.
+              실무에서는 인증/인가 흐름 연동과 블록체인 기반 PG 정산 기능 설계·구현에 집중했습니다.
+            </p>
+            <ul class="bullet-list">
+              <li>JWT 기반 다중 주체 인증 체계와 IAM 권한 구조를 바탕으로 서비스 API 주체별 접근 흐름을 구현했습니다.</li>
+              <li>결제-정산 매핑 구조와 실행 단위/지급 단위 분리로 블록체인 PG 정산 도메인과 스키마를 보완했습니다.</li>
+              <li>정산 요청·완료·실패 상태와 외부 실행 결과를 연결해 수수료 분배, 지급 결과 반영, 정산 상태 추적이 가능한 프로세스를 구성했습니다.</li>
+            </ul>
+          </article>
+        </section>
+
+        <section id="projects" class="section reveal">
+          <div class="section-heading">
+            <p class="eyebrow">Projects</p>
+            <h2>대표 프로젝트</h2>
+          </div>
+
+          <div class="project-grid">
+            <article class="project-card featured">
+              <div class="project-topline">
+                <span class="project-badge">메인 프로젝트</span>
+                <span class="project-meta">개인 프로젝트 · 기간 입력 예정</span>
+              </div>
+              <h3>Hipster</h3>
+              <p class="project-summary">
+                사용자 평점 집계, 차트 생성/공개, 검수, 보상, 정산 흐름을 갖춘 음악 레이팅 플랫폼 백엔드입니다.
+                읽기 성능과 공개 정합성이 중요한 영역은 계층을 분리하고, 보상과 정산은 상태를 끝까지 설명할 수 있는 구조로 설계했습니다.
+              </p>
+              <ul class="stack-list">
+                <li>Java 17</li>
+                <li>Spring Boot</li>
+                <li>JPA / Querydsl</li>
+                <li>Spring Batch</li>
+                <li>MySQL</li>
+                <li>Redis</li>
+                <li>Elasticsearch</li>
+                <li>RabbitMQ</li>
+              </ul>
+              <div class="result-grid">
+                <article><strong>65,421ms → 178.37ms</strong><span>500만 건 기준 차트 조회</span></article>
+                <article><strong>11,386ms → 16.73ms</strong><span>반복 요청 적중 경로</span></article>
+                <article><strong>806ms → 20ms</strong><span>평점 집계 조회</span></article>
+                <article><strong>약 87.9분 → 약 23.9분</strong><span>차트 재생성 배치</span></article>
+              </div>
+              <div class="link-row">
+                <a href="https://github.com/kangjoo2002/hipster" target="_blank" rel="noreferrer">레포지토리</a>
+                <a href="https://github.com/kangjoo2002/hipster/blob/main/README.md" target="_blank" rel="noreferrer">프로젝트 개요</a>
+                <a href="https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-serving.md" target="_blank" rel="noreferrer">차트 서빙 문서</a>
+                <a href="https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-pipeline.md" target="_blank" rel="noreferrer">공개 파이프라인 문서</a>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline">
+                <span class="project-badge subtle">서브 프로젝트</span>
+                <span class="project-meta">개인 프로젝트 · 기간 입력 예정</span>
+              </div>
+              <h3>SNS 프로젝트</h3>
+              <p class="project-summary">
+                피드 조회, 분산 캐시, fan-out, 좋아요 병합, 읽기/쓰기 분리와 복제 장애 대응을 실험한 SNS 백엔드 프로젝트입니다.
+                단일 기능 구현보다 읽기 비용을 어디에 둘 것인지, 분산 환경에서 기준점을 어떻게 유지할지에 집중했습니다.
+              </p>
+              <ul class="stack-list">
+                <li>Java / Spring</li>
+                <li>JPA / Hibernate</li>
+                <li>MySQL</li>
+                <li>Redis</li>
+                <li>Docker</li>
+                <li>JMeter</li>
+                <li>AWS EC2 / ELB</li>
+              </ul>
+              <div class="result-grid">
+                <article><strong>29s → 45ms</strong><span>피드 기본 쿼리</span></article>
+                <article><strong>7236 → 1091</strong><span>정렬 대상 row_size</span></article>
+                <article><strong>83,968 → 12,089</strong><span>정렬 메모리 peak</span></article>
+                <article><strong>34.3/s → 79.1/s</strong><span>API 서버 수평 확장 처리량</span></article>
+              </div>
+              <div class="link-row">
+                <span class="link-disabled">SNS 레포 URL 연결 예정</span>
+                <a href="#cases">기술 사례 요약 보기</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="cases" class="section reveal">
+          <div class="section-heading">
+            <p class="eyebrow">Engineering Cases</p>
+            <h2>기술 사례</h2>
+          </div>
+
+          <div class="filter-bar" role="tablist" aria-label="기술 사례 필터">
+            <button class="filter-button is-active" data-filter="all" type="button">전체</button>
+            <button class="filter-button" data-filter="performance" type="button">성능</button>
+            <button class="filter-button" data-filter="consistency" type="button">정합성</button>
+            <button class="filter-button" data-filter="batch" type="button">배치</button>
+            <button class="filter-button" data-filter="cache" type="button">캐시</button>
+            <button class="filter-button" data-filter="settlement" type="button">정산</button>
+          </div>
+
+          <div class="case-grid">
+            <article class="case-card" data-tags="performance batch">
+              <div class="case-chip-row"><span>Hipster</span><span>배치</span></div>
+              <h3>유저 신뢰도 계층 분리</h3>
+              <p>유저 가중치 변경이 과거 평점 row 재기록으로 번지는 구조를 끊고, 전용 배치로 범위를 축소했습니다.</p>
+              <dl class="case-stats">
+                <div><dt>배치 시간</dt><dd>921,000ms → 359,200ms</dd></div>
+                <div><dt>헤비 유저 계산</dt><dd>10,420ms → 1,138ms</dd></div>
+              </dl>
+              <a href="https://github.com/kangjoo2002/hipster/blob/main/portfolio/user-credibility-batch.md" target="_blank" rel="noreferrer">문서 보기</a>
+            </article>
+
+            <article class="case-card" data-tags="performance consistency">
+              <div class="case-chip-row"><span>Hipster</span><span>집계</span></div>
+              <h3>평점 집계 계층과 결과적 일관성</h3>
+              <p>원본 `ratings`에 몰린 조회 책임과 가중치 반영 책임을 분리하고, 릴리즈 단위 집계 계층을 세웠습니다.</p>
+              <dl class="case-stats">
+                <div><dt>조회 응답</dt><dd>806ms → 20ms</dd></div>
+                <div><dt>동시 100건 등록</dt><dd>126ms → 12.95ms</dd></div>
+              </dl>
+              <a href="https://github.com/kangjoo2002/hipster/blob/main/portfolio/rating-aggregation.md" target="_blank" rel="noreferrer">문서 보기</a>
+            </article>
+
+            <article class="case-card" data-tags="performance cache">
+              <div class="case-chip-row"><span>Hipster</span><span>서빙</span></div>
+              <h3>차트 읽기 모델과 캐시 계층 분리</h3>
+              <p>정규화 JOIN 기반 차트 조회를 읽기 전용 projection, Redis, Elasticsearch, 메타데이터 캐시 구조로 발전시켰습니다.</p>
+              <dl class="case-stats">
+                <div><dt>차트 조회</dt><dd>65,442ms → 12,069ms</dd></div>
+                <div><dt>Redis hit</dt><dd>수 초대 miss → 16~23ms</dd></div>
+              </dl>
+              <a href="https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-serving.md" target="_blank" rel="noreferrer">문서 보기</a>
+            </article>
+
+            <article class="case-card" data-tags="consistency batch">
+              <div class="case-chip-row"><span>Hipster</span><span>공개 정합성</span></div>
+              <h3>차트 공개 파이프라인 분리</h3>
+              <p>`generate → validate → publish → serve` 단계로 분리해 저장소와 API 응답이 같은 공개 버전을 따르도록 만들었습니다.</p>
+              <dl class="case-stats">
+                <div><dt>공개 후 가시화</dt><dd>publishedAt과 apiVisibleAt 차이 296.03ms</dd></div>
+                <div><dt>핵심 효과</dt><dd>부분 공개 불일치 제거</dd></div>
+              </dl>
+              <a href="https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-pipeline.md" target="_blank" rel="noreferrer">문서 보기</a>
+            </article>
+
+            <article class="case-card" data-tags="performance cache">
+              <div class="case-chip-row"><span>SNS</span><span>피드</span></div>
+              <h3>피드 읽기 경로 재설계</h3>
+              <p>피드 전용 중간 테이블 없이 인덱스, 배치 조회, 반정규화로 읽기 핫패스를 정리했습니다.</p>
+              <dl class="case-stats">
+                <div><dt>기본 쿼리</dt><dd>29s → 0.045s</dd></div>
+                <div><dt>정렬 메모리</dt><dd>83,968 → 12,089</dd></div>
+              </dl>
+              <span class="link-disabled">레포 연결 후 문서 링크 추가</span>
+            </article>
+
+            <article class="case-card" data-tags="performance">
+              <div class="case-chip-row"><span>SNS</span><span>확장</span></div>
+              <h3>커넥션 풀보다 수평 확장</h3>
+              <p>커넥션 풀 확대가 CPU 경쟁과 컨텍스트 스위칭을 악화시킬 수 있음을 확인하고, 수평 확장으로 방향을 바꿨습니다.</p>
+              <dl class="case-stats">
+                <div><dt>평균 응답 시간</dt><dd>725ms → 373ms</dd></div>
+                <div><dt>처리량</dt><dd>34.3/s → 79.1/s</dd></div>
+              </dl>
+              <span class="link-disabled">레포 연결 후 문서 링크 추가</span>
+            </article>
+
+            <article class="case-card" data-tags="cache consistency settlement">
+              <div class="case-chip-row"><span>Hipster / 실무</span><span>정산</span></div>
+              <h3>외부 지급을 설명 가능한 상태로 모델링</h3>
+              <p>총 적립 잔액과 정산 가능 금액을 분리하고, 요청·예약·미확정·조정 기록으로 외부 지급 결과를 끝까지 추적 가능한 상태 모델로 정리했습니다.</p>
+              <dl class="case-stats">
+                <div><dt>주요 포인트</dt><dd>열린 요청 중복 차단, 미확정 상태 유지, 후속 조정 기록</dd></div>
+                <div><dt>검증 예시</dt><dd>총 적립 1,000 / 예약 300 / 조정 100 → 가능 금액 600</dd></div>
+              </dl>
+              <a href="https://github.com/kangjoo2002/hipster/blob/main/portfolio/settlement-pay-and-reconcile.md" target="_blank" rel="noreferrer">문서 보기</a>
+            </article>
+          </div>
+        </section>
+
+        <section id="workflow" class="section reveal">
+          <div class="section-heading">
+            <p class="eyebrow">Workflow</p>
+            <h2>이 포트폴리오의 구성 원칙</h2>
+          </div>
+
+          <div class="workflow-grid">
+            <article class="workflow-card"><span class="workflow-step">01</span><h3>포지션을 먼저 정합니다</h3><p>신입 지원이지만 실제 인상은 “실무 감각이 있는 백엔드 주니어”로 남도록 경력과 개인 프로젝트를 함께 엮습니다.</p></article>
+            <article class="workflow-card"><span class="workflow-step">02</span><h3>기능보다 문제를 고릅니다</h3><p>기술 이름이나 CRUD보다 병목, 정합성, 운영 경계, 상태 모델링이 드러나는 사례를 대표 카드로 올립니다.</p></article>
+            <article class="workflow-card"><span class="workflow-step">03</span><h3>문서와 수치를 연결합니다</h3><p>모든 성과는 측정 조건과 한계를 함께 적고, 가능한 경우 문서 또는 코드로 바로 이어지게 구성합니다.</p></article>
+            <article class="workflow-card"><span class="workflow-step">04</span><h3>읽기 순서를 설계합니다</h3><p>30초 안에 요약을 읽고, 3분 안에 대표 프로젝트를 파악하고, 관심 있으면 기술 문서까지 내려갈 수 있게 계층을 나눕니다.</p></article>
+          </div>
+
+          <div class="principles-panel">
+            <h3>페이지 안에서 유지한 기준</h3>
+            <ul class="bullet-list">
+              <li>기술 스택 나열보다 구조 변경의 이유와 결과를 먼저 보이게 했습니다.</li>
+              <li>스타트업 지원을 고려해 빠르게 검증하고 설명 가능한 엔지니어링 감각을 강조했습니다.</li>
+              <li>과장된 운영 수치 대신 로컬/테스트 기준을 명시해 신뢰도를 지키도록 구성했습니다.</li>
+              <li>한 프로젝트 안에서도 읽기 성능, 정합성, 배치, 상태 모델링을 분리해 보이도록 카드화했습니다.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="contact" class="section reveal">
+          <div class="section-heading">
+            <p class="eyebrow">Deploy</p>
+            <h2>배포 전 마지막 체크</h2>
+          </div>
+
+          <div class="contact-grid">
+            <article class="contact-card">
+              <h3>바로 교체할 값</h3>
+              <ul class="bullet-list">
+                <li>실명 또는 노출할 이름</li>
+                <li>이메일 주소</li>
+                <li>블로그 URL</li>
+                <li>SNS 프로젝트 레포 URL</li>
+                <li>각 프로젝트 실제 진행 기간</li>
+              </ul>
+            </article>
+
+            <article class="contact-card">
+              <h3>무료 배포 방식</h3>
+              <p>
+                이 사이트는 정적 파일만 사용하므로 GitHub Pages에 무료로 배포할 수 있습니다.
+                레포 이름을 <code>kangjoo2002.github.io</code>로 만들면 프로젝트 경로 없이 바로 사용자 도메인으로 열립니다.
+              </p>
+              <a class="button button-primary" href="https://github.com/kangjoo2002" target="_blank" rel="noreferrer">GitHub 프로필</a>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>Built for GitHub Pages. 일부 연락처와 SNS 링크는 배포 전에 교체가 필요합니다.</p>
+      </footer>
+    </div>
+  </body>
+</html>
