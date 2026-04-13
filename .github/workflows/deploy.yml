@@ -29,6 +29,9 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Validate static pages
+        run: python tools/validate_pages.py
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
