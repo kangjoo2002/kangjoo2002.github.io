@@ -36,6 +36,12 @@ window.CASE_STUDIES = [
         ],
       },
       {
+        heading: "결과",
+        paragraphs: [
+          "공개 단계 완료 후 `publishedAt`과 `apiVisibleAt` 차이를 측정하고, Redis 공개 버전·`lastUpdated`·Elasticsearch alias·API 응답이 모두 같은 버전을 가리키는지 종단 간으로 확인했습니다. 롤백과 Redis 키 유실 상황에서도 `chart_publish_state.current_version` 한 기준으로 복원 가능한지 함께 검증했습니다. 배치 완료와 공개 완료가 분리되면서, 이전에는 설명하기 어려웠던 \"어느 버전이 지금 노출 중인가\"를 단일 기준으로 말할 수 있게 됐습니다.",
+        ],
+      },
+      {
         heading: "운영 포인트",
         bullets: [
           "배치 완료 여부보다 공개 버전 전환 기록으로 상태를 보게 했습니다.",
@@ -85,7 +91,7 @@ window.CASE_STUDIES = [
       {
         heading: "결과",
         paragraphs: [
-          "응답 시간만 줄어든 게 아니라 느린 구간도 더 빨리 가를 수 있게 됐습니다. 검색이 느린지, 공통 정보가 느린지, 캐시 미스가 많은지 따로 볼 수 있게 됐습니다.",
+          "같은 500만 건 데이터셋 기준으로 `wall/total/search/hydrate/lastUpdated/assemble` 지표를 단계별로 비교했고, 캐시 cold miss/miss/hit도 분리 측정했습니다. MySQL `Handler_read%`와 `Sort_merge_passes`로 조인 비용 감소와 잔존 병목 위치도 확인했습니다. 단일 조회였던 API가 Redis·Elasticsearch·MySQL·메타데이터 경로로 나뉘면서, 부분 장애에서도 API를 끊지 않는 구조가 됐습니다.",
         ],
       },
     ],
@@ -171,7 +177,7 @@ window.CASE_STUDIES = [
       {
         heading: "결과",
         paragraphs: [
-          "조회와 동시 등록이 함께 개선됐고, 이후 차트·가중치·보정 작업도 서로 덜 엉키게 됐습니다.",
+          "Testcontainers 환경에서 조회 10,000건·단건 쓰기·동시 100건 등록 시나리오를 동기 갱신과 `AFTER_COMMIT` 비동기 반영으로 나눠 비교 측정했습니다. `AntiEntropyBatchJob`으로 집계 불일치를 전체 재집계로 덮어쓸 수 있는 복구 경로도 검증했습니다. 가중치 변경이 과거 `ratings` 전체 재기록으로 퍼지지 않고, 집계 재계산 경로로만 반영되는 구조가 됐습니다.",
         ],
       },
     ],
@@ -536,6 +542,49 @@ window.CASE_STUDIES = [
     ],
   },
   {
+    slug: "connection-pool-optimization",
+    project: "SNS",
+    repoUrl: "https://github.com/kangjoo2002/sns",
+    sourceUrl:
+      "https://github.com/kangjoo2002/sns/blob/main/portfolio/connection-pool-optimization.md",
+    title: "커넥션 풀 증설이 오히려 성능을 낮춘 원인 분석",
+    summary:
+      "커넥션 수를 늘리면 좋아질 것이라는 가설을 검증했지만, 피드 조회에서는 CPU·스레드 경합이 더 크게 드러나 풀 최적화만으로는 한계가 있음을 확인했습니다.",
+    metrics: [
+      { label: "커넥션 50개 실험", value: "응답 지표 악화 + RUNNING 스레드 증가" },
+      { label: "커넥션 6개 실험", value: "50개 대비 더 안정 + 최장 RUNNING 약 10,000ms" },
+      { label: "핵심 판단", value: "풀 증설 단독 해법 한계 확인" },
+    ],
+    sections: [
+      {
+        heading: "문제",
+        paragraphs: [
+          "커넥션 대기 신호만 보면 풀 크기를 키우면 해결될 것처럼 보였지만, 실제 피드 조회는 DB 대기와 애플리케이션 CPU 작업이 함께 얽힌 경로였습니다.",
+        ],
+      },
+      {
+        heading: "판단",
+        paragraphs: [
+          "대기열 감소만이 아니라 RUNNING 스레드 경합과 전체 응답 편차까지 함께 안정화되는지를 기준으로 풀 조정 효과를 판단했습니다.",
+        ],
+      },
+      {
+        heading: "구조 변경",
+        bullets: [
+          "커넥션 풀 확장(50)과 축소(6) 실험을 비교해 단일 가설을 검증했습니다.",
+          "대기 시간만 보지 않고 RUNNING 스레드 길이와 경합 증가를 함께 관찰했습니다.",
+          "풀 최적화는 적정값 탐색으로 제한하고, 이후 확장 전략으로 의사결정 경계를 분리했습니다.",
+        ],
+      },
+      {
+        heading: "결과",
+        paragraphs: [
+          "커넥션을 늘리는 방식은 병목을 줄이기보다 동시 실행 경쟁을 키울 수 있음을 확인했습니다. 그 결과 커넥션 풀 최적화는 전제 확인 단계로 정리되고, 최종 개선 방향은 수평 확장으로 전환됐습니다.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "scale-out-over-connection-pool",
     project: "SNS",
     repoUrl: "https://github.com/kangjoo2002/sns",
@@ -619,6 +668,12 @@ window.CASE_STUDIES = [
           "전파 작업 중 Redis 연결 오류나 차단 상태가 나면 작업을 복구 큐에 보관했습니다.",
           "복구 스케줄러는 Redis 응답과 차단 상태를 함께 확인한 뒤 대기 작업을 다시 실행했습니다.",
           "재실행이 성공하면 큐에서 제거하고, 아직 불안정하면 다음 주기로 미뤘습니다.",
+        ],
+      },
+      {
+        heading: "결과",
+        paragraphs: [
+          "Testcontainers로 Redis를 실제로 내리고 올리면서, fan-out 호출 시 WorkQueue 적재 → 복구 감지 → 재처리 성공 → 최종 피드 반영까지 시나리오 전체를 통합 테스트로 확인했습니다. 읽기는 서킷브레이커 후 DB fallback으로 응답을 유지하고, 쓰기는 장애 순간 누락되지 않고 복구 시점에 재실행되는 것을 로그 흐름으로 검증했습니다. 같은 Redis 장애를 단일 전략으로 처리하지 않고 실패 성격별로 운영 모델을 나눈 구조가 됐습니다.",
         ],
       },
       {
