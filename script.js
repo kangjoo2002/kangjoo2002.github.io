@@ -9,6 +9,7 @@ const navLinks = Array.from(document.querySelectorAll(".nav a"));
 const sections = Array.from(document.querySelectorAll("main section[id]"));
 const revealTargets = Array.from(document.querySelectorAll(".reveal"));
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const analytics = window.portfolioAnalytics;
 let activeProjectFilter = "all";
 
 const setActiveNav = (sectionId) => {
@@ -66,6 +67,9 @@ filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     activeProjectFilter = button.dataset.filterValue || "all";
     applyFilters();
+    analytics?.track("case_filter_select", {
+      filter_value: activeProjectFilter,
+    });
   });
 });
 

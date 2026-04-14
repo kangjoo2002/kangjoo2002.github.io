@@ -10,6 +10,7 @@ HTML_FILES = [ROOT / "index.html", ROOT / "case.html"]
 LINK_PATTERN = re.compile(r'''(?:href|src)=["']([^"']+)["']''')
 CASE_LINK_PATTERN = re.compile(r"case\.html\?case=([a-z0-9\-]+)")
 CASE_SLUG_PATTERN = re.compile(r'slug:\s*"([^"]+)"')
+ANALYTICS_SCRIPT_PATTERN = re.compile(r'<script\s+defer\s+src=["\']\./analytics\.js["\']')
 
 
 def main() -> int:
@@ -21,6 +22,11 @@ def main() -> int:
             continue
 
         content = html_file.read_text(encoding="utf-8")
+
+        if not ANALYTICS_SCRIPT_PATTERN.search(content):
+            errors.append(
+                f"{html_file.relative_to(ROOT)} is missing deferred analytics.js script include"
+            )
 
         for raw_link in LINK_PATTERN.findall(content):
             if raw_link.startswith(("http://", "https://", "mailto:", "tel:", "#")):

@@ -11,6 +11,7 @@ const ogTitle = document.querySelector('meta[property="og:title"]');
 const ogDescription = document.querySelector('meta[property="og:description"]');
 const twitterTitle = document.querySelector('meta[name="twitter:title"]');
 const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+const analytics = window.portfolioAnalytics;
 
 const params = new URLSearchParams(window.location.search);
 const slug = params.get("case");
@@ -68,6 +69,9 @@ const renderEmptyState = () => {
 
 if (!selectedCase) {
   renderEmptyState();
+  analytics?.track("case_not_found", {
+    requested_case_slug: slug || "(empty)",
+  });
 } else {
   const pageTitle = `${selectedCase.title} | ${selectedCase.project} | Juhyeong Kang`;
   document.title = pageTitle;
@@ -181,4 +185,9 @@ if (!selectedCase) {
       });
     }
   }
+
+  analytics?.track("view_case", {
+    case_slug: selectedCase.slug,
+    project_name: selectedCase.project,
+  });
 }
