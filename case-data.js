@@ -5,9 +5,9 @@ window.CASE_STUDIES = [
     repoUrl: "https://github.com/kangjoo2002/hipster",
     sourceUrl:
       "https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-pipeline.md",
-    title: "차트 공개 기준이 저장소마다 달라지던 문제 해결",
+    title: "버전형 차트 재생성 파이프라인 구조 설계",
     summary:
-      "차트 계산과 공개 시점을 나누고, 캐시·검색·DB·갱신 시각이 모두 같은 공개 기준을 따르도록 맞췄습니다.",
+      "차트 생성부터 공개까지의 단계를 분리하고, 단 하나의 current_version 참조로 수렴하도록 동기화 파이프라인으로 구축했습니다.",
     metrics: [
       { label: "공개 기준", value: "공개 버전 테이블 한 곳에서 관리" },
       { label: "전환 단계", value: "생성 → 검증 → 공개 → 제공" },
@@ -58,9 +58,9 @@ window.CASE_STUDIES = [
     repoUrl: "https://github.com/kangjoo2002/hipster",
     sourceUrl:
       "https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-serving.md",
-    title: "차트 API 병목을 검색 경로와 메타데이터 경로로 분리",
+    title: "역할 분리를 통한 차트 조회 성능 개선",
     summary:
-      "차트 API를 한 덩어리 조회로 다루지 않고, 캐시·검색·공통 정보·우회 조회로 나눠 병목을 줄였습니다.",
+      "단일 저장소 의존으로 인한 응답 지연을 방지하기 위해 조회 캐시, 검색, 메타데이터 조회를 분리하여 Read Path를 재설계했습니다.",
     metrics: [
       { label: "장르 필터 응답 시간", value: "65,421ms → 178.37ms" },
       { label: "반복 요청 응답 시간", value: "11,386ms → 16.73ms" },
@@ -104,9 +104,9 @@ window.CASE_STUDIES = [
     repoUrl: "https://github.com/kangjoo2002/hipster",
     sourceUrl:
       "https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-batch-performance.md",
-    title: "차트 재생성 배치 시간이 길던 문제 해결",
+    title: "대규모 차트 재생성 배치 처리 효율화",
     summary:
-      "차트 재생성 배치를 한 덩어리로 보지 않고, 조립·DB 적재·검색 인덱싱 단계로 나눠 병목을 줄였습니다.",
+      "무거운 조인 조회와 건 단위 처리를 청크, 집계, 벌크 삽입 방식으로 분해하여 대규모 트래픽 병목을 타개했습니다.",
     metrics: [
       { label: "차트 재생성 배치 시간", value: "약 87.9분 → 약 23.9분" },
       { label: "ES 재색인 총 시간", value: "7,455.67ms → 953.67ms" },
@@ -148,9 +148,9 @@ window.CASE_STUDIES = [
     repoUrl: "https://github.com/kangjoo2002/hipster",
     sourceUrl:
       "https://github.com/kangjoo2002/hipster/blob/main/portfolio/rating-aggregation.md",
-    title: "원본 평점 테이블에 몰린 조회·갱신 부담 분리",
+    title: "비동기 파이프라인 및 자가 치유 구조를 통한 결과적 일관성 확보",
     summary:
-      "원본 평점 저장과 사용자에게 보여줄 집계 결과를 분리해, 조회와 등록이 서로 발목 잡지 않게 만들었습니다.",
+      "메시지 큐 분리와 Anti-Entropy 배치 구현을 통해 동시 경합으로 발생하는 DB 커넥션 고갈 위협을 해소했습니다.",
     metrics: [
       { label: "평점 집계 조회 응답 시간", value: "806ms → 20ms" },
       { label: "동시 등록 평균 응답 시간", value: "126ms → 12.95ms" },
@@ -192,9 +192,9 @@ window.CASE_STUDIES = [
     repoUrl: "https://github.com/kangjoo2002/hipster",
     sourceUrl:
       "https://github.com/kangjoo2002/hipster/blob/main/portfolio/user-credibility-batch.md",
-    title: "유저 가중치 변경이 대량 갱신으로 번지던 문제 해결",
+    title: "테이블 책임 분리를 통한 연쇄 쓰기 쿼리 최적화",
     summary:
-      "가중치 계산 속도보다, 가중치 변경이 원본 평점 전체 수정으로 퍼지는 구조를 먼저 줄였습니다.",
+      "유저 가중치 반영 시의 원본 평점 재기록 오류를 해결하고 점수 연산을 위임하여 무의미한 연쇄 쓰기를 차단했습니다.",
     metrics: [
       { label: "가중치 배치 시간", value: "921,000ms → 359,200ms" },
       { label: "유저 통계 계산 시간", value: "10,420ms → 1,138ms" },
@@ -231,58 +231,14 @@ window.CASE_STUDIES = [
     ],
   },
   {
-    slug: "settlement-pay-and-reconcile",
-    project: "Hipster",
-    repoUrl: "https://github.com/kangjoo2002/hipster",
-    sourceUrl:
-      "https://github.com/kangjoo2002/hipster/blob/main/portfolio/settlement-pay-and-reconcile.md",
-    title: "정산 후 실제 지급까지 추적 가능한 상태 모델링",
-    summary:
-      "총 적립액만으로는 보이지 않던 정산 상태를 요청·예약·지급·조정으로 나눠 실제 지급 흐름을 끝까지 추적했습니다.",
-    metrics: [
-      { label: "핵심 기준", value: "정산 요청 단위로 상태 추적" },
-      { label: "보호 장치", value: "예약 유지 + 미확정/조정 상태 분리" },
-      { label: "추적 범위", value: "요청 생성 → 지급 → 후속 조정" },
-    ],
-    sections: [
-      {
-        heading: "문제",
-        paragraphs: [
-          "적립 원장은 무엇이 쌓였는지까지는 보여줬지만, 정산이 시작되면 질문이 달라졌습니다. 총 적립 잔액과 지금 보낼 수 있는 금액이 왜 다른지, 외부 지급이 타임아웃 났을 때 실제 송금은 어떻게 됐는지까지 따라갈 수 있어야 했습니다.",
-        ],
-      },
-      {
-        heading: "판단",
-        paragraphs: [
-          "정산은 잔액을 바로 깎는 기능보다 요청 단위 추적 모델이 먼저 필요했습니다. 그래서 요청 생성, 금액 예약, 외부 지급, 후속 확인과 조정으로 이어지는 흐름으로 다시 세웠습니다.",
-        ],
-      },
-      {
-        heading: "구조 변경",
-        bullets: [
-          "정산은 요청 번호, 요청 금액, 예약 금액, 외부 참조, 상태를 함께 가진 요청 단위로 다뤘습니다.",
-          "총 적립 잔액과 실제 정산 가능 금액을 분리하고, 예약 중인 금액과 열린 조정은 별도로 계산했습니다.",
-          "외부 지급 결과는 성공·실패로 성급히 단정하지 않고 미확정 상태와 후속 확인 흐름으로 흡수했습니다.",
-          "늦은 실패나 정정은 기존 성공 기록을 덮어쓰지 않고 조정 기록으로 남겼습니다.",
-        ],
-      },
-      {
-        heading: "결과",
-        paragraphs: [
-          "정산은 단순 잔액 차감이 아니라, 요청마다 예약·미확정·성공·조정 필요 상태를 남기는 흐름이 됐습니다. 외부 지급의 늦은 실패나 정정도 같은 요청 안에서 이어서 추적할 수 있게 됐습니다.",
-        ],
-      },
-    ],
-  },
-  {
     slug: "reward-ledger",
     project: "Hipster",
     repoUrl: "https://github.com/kangjoo2002/hipster",
     sourceUrl:
       "https://github.com/kangjoo2002/hipster/blob/main/portfolio/reward-ledger.md",
-    title: "검증된 기여만 적립으로 인정하는 보상 원장 분리",
+    title: "Outbox 패턴을 통한 비동기 적립 이벤트 재처리 아키텍처",
     summary:
-      "검수 승인과 적립을 한 트랜잭션에 묶지 않고, 적립·차단·취소를 원장에 따로 남기도록 나눴습니다.",
+      "2PC 분산 트랜잭션 수립이 어려운 환경에서, 로컬 DB 커밋과 보관 테이블을 구축하고 메시지 큐 이벤트의 멱등성을 검증했습니다.",
     metrics: [
       { label: "멱등 기준", value: "승인 건당 최대 1회 적립" },
       { label: "정책 상태", value: "한도 초과와 취소 이력 구분" },
@@ -319,58 +275,14 @@ window.CASE_STUDIES = [
     ],
   },
   {
-    slug: "moderation-queue",
-    project: "Hipster",
-    repoUrl: "https://github.com/kangjoo2002/hipster",
-    sourceUrl:
-      "https://github.com/kangjoo2002/hipster/blob/main/portfolio/moderation-queue.md",
-    title: "검수 적체와 담당 전환을 운영 가능한 대기열로 재구성",
-    summary:
-      "검수 요청을 상태 목록이 아니라 담당자, 이력, SLA가 함께 보이는 운영 대기열로 바꿨습니다.",
-    metrics: [
-      { label: "상태 기준", value: "현재 상태와 운영 이력 분리" },
-      { label: "운영 장치", value: "공식 담당 전환 + 만료 회수" },
-      { label: "가시성", value: "응답과 지표에 같은 SLA 기준 반영" },
-    ],
-    sections: [
-      {
-        heading: "문제",
-        paragraphs: [
-          "초기 검수 구조에는 점유와 승인·반려 흐름은 있었지만, 누가 맡고 있는지, 왜 다시 대기로 돌아왔는지, 무엇이 오래 막혀 있는지를 시스템 안에서 바로 읽기 어려웠습니다. 그 공백은 운영자의 수동 정리와 기억에 기대고 있었습니다.",
-        ],
-      },
-      {
-        heading: "판단",
-        paragraphs: [
-          "검수 적체는 양만 줄이는 문제가 아니라, 누가 맡고 있고 왜 막혔는지 남길 수 있어야 했습니다. 담당 전환, 점유 회수, SLA 가시성은 결국 같은 운영 질문에 대한 답이었습니다.",
-        ],
-      },
-      {
-        heading: "구조 변경",
-        bullets: [
-          "현재 대기열에는 담당자, 점유 만료 시각, 검수 상태처럼 지금 필요한 정보만 남겼습니다.",
-          "운영 이력에는 점유, 담당 전환, 만료 회수, 승인·반려를 시간순으로 기록했습니다.",
-          "담당 전환은 정식 절차로 두고, 상태 수는 불필요하게 늘리지 않았습니다.",
-          "방치된 점유는 백그라운드 회수로 처리하고, 마지막 액션 보정도 별도로 뒀습니다.",
-        ],
-      },
-      {
-        heading: "결과",
-        paragraphs: [
-          "검수 대기열은 단순 보관소가 아니라 운영자가 바로 판단할 수 있는 화면으로 바뀌었습니다. 담당 전환과 적체 상태를 같은 기준으로 볼 수 있게 됐습니다.",
-        ],
-      },
-    ],
-  },
-  {
     slug: "feed-read-path-index-batch-denormalization",
     project: "SNS",
     repoUrl: "https://github.com/kangjoo2002/sns",
     sourceUrl:
       "https://github.com/kangjoo2002/sns/blob/main/portfolio/feed-read-path-index-batch-denormalization.md",
-    title: "29초 걸리던 피드 조회를 중간 테이블 없이 개선",
+    title: "EXPLAIN 분석을 통한 대용량 피드 조회 최적화",
     summary:
-      "피드 전용 테이블을 바로 만들지 않고, 인덱스 정비·개수 없는 페이지 조회·묶음 조회·반정규화로 읽기 비용을 먼저 줄였습니다.",
+      "1억 4천만 건 조인 환경에서 임시 테이블과 정렬 병목을 해소하고 @BatchSize 조회 방식을 선제 적용했습니다.",
     metrics: [
       { label: "피드 기본 조회 응답 시간", value: "29,000ms → 45ms" },
       { label: "정렬 대상 행 수", value: "7,236 → 1,091" },
@@ -413,9 +325,9 @@ window.CASE_STUDIES = [
     repoUrl: "https://github.com/kangjoo2002/sns",
     sourceUrl:
       "https://github.com/kangjoo2002/sns/blob/main/portfolio/separate-feed-cache-and-post-interactions.md",
-    title: "게시글 캐시와 좋아요 계층을 분리해 경합 완화",
+    title: "DB 관통 방어를 위한 계층형 캐시 전략",
     summary:
-      "본문 같은 정적 데이터와 좋아요·카운트 같은 가변 데이터를 나눠 캐시 경합을 줄이고, 삭제된 게시글 반복 조회도 막았습니다.",
+      "정적, 가변 데이터를 계층 분리하여 캐싱하고 삭제된 데이터에 대해 Null Object 패턴을 반환하여 원본 조회 차단에 성공했습니다.",
     metrics: [
       { label: "좋아요 평균 응답 시간", value: "500ms → 169ms" },
       { label: "좋아요 처리량", value: "101.1건/s → 315.5건/s" },
@@ -453,110 +365,14 @@ window.CASE_STUDIES = [
     ],
   },
   {
-    slug: "replication-proxy-failover",
-    project: "SNS",
-    repoUrl: "https://github.com/kangjoo2002/sns",
-    sourceUrl:
-      "https://github.com/kangjoo2002/sns/blob/main/portfolio/replication-proxy-failover.md",
-    title: "ProxySQL과 Orchestrator로 피드 조회 경로와 복구 체계 개선",
-    summary:
-      "읽기·쓰기 분기와 장애 복구를 애플리케이션 안에서 처리하지 않고, ProxySQL과 Orchestrator로 바깥 계층에 나눠 맡겼습니다.",
-    metrics: [
-      { label: "피드 조회 API 평균 응답 시간", value: "319ms → 140ms" },
-      { label: "읽기/쓰기 분기", value: "ProxySQL이 역할별로 라우팅" },
-      { label: "장애 복구", value: "Orchestrator가 자동 전환 담당" },
-    ],
-    sections: [
-      {
-        heading: "문제",
-        paragraphs: [
-          "초기에는 애플리케이션이 직접 주 서버와 읽기 서버를 나누고 있었습니다. 평상시에는 동작했지만, 장애 전환과 복제 토폴로지 변경까지 계속 쫓아가야 하는 구조였습니다.",
-        ],
-      },
-      {
-        heading: "판단",
-        paragraphs: [
-          "라우팅은 비즈니스 로직보다 인프라 상태에 가까운 책임입니다. 애플리케이션이 현재 주 서버를 직접 판단하기보다, 바깥 계층이 그 결정을 내려주는 편이 맞았습니다.",
-        ],
-      },
-      {
-        heading: "ProxySQL",
-        bullets: [
-          "복제 운영 기준을 정비하고, ProxySQL이 쓰기 노드와 읽기 노드를 나누게 했습니다.",
-          "일반 조회, 잠금이 필요한 조회, 쓰기 요청을 역할에 맞게 분기했습니다.",
-          "애플리케이션은 DB 역할 전환을 직접 추적하지 않고 프록시가 정한 결과만 사용하게 했습니다.",
-        ],
-      },
-      {
-        heading: "Orchestrator",
-        bullets: [
-          "Orchestrator가 주 노드 장애 전환과 복제 재구성을 맡았습니다.",
-          "3노드 구성으로 운영 계층의 단일 장애 지점을 줄였습니다.",
-          "장애 전환 규칙과 복제 상태 해석은 운영 계층에서 관리하게 했습니다.",
-        ],
-      },
-      {
-        heading: "결과",
-        paragraphs: [
-          "읽기 성능도 좋아졌지만, 더 큰 변화는 라우팅과 복구 규칙이 애플리케이션 코드 밖으로 나가 역할이 선명해졌다는 점입니다. 이후 DB 운영 규칙을 코드 배포와 분리해 관리할 수 있게 됐습니다.",
-        ],
-      },
-    ],
-  },
-  {
-    slug: "redis-feed-lifecycle-and-fanout",
-    project: "SNS",
-    repoUrl: "https://github.com/kangjoo2002/sns",
-    sourceUrl:
-      "https://github.com/kangjoo2002/sns/blob/main/portfolio/redis-feed-lifecycle-and-fanout.md",
-    title: "피드 발행 파이프라이닝으로 전파 비용 단축",
-    summary:
-      "피드 계산을 조회 시점이 아니라 발행 시점으로 옮기고, Redis 파이프라이닝으로 전파 비용을 줄였습니다.",
-    metrics: [
-      { label: "피드 발행 시간", value: "1,341ms → 101ms" },
-      { label: "10,000명 반영 시간", value: "8,563ms → 270ms" },
-      { label: "피드 저장 구조", value: "사용자별 피드 목록에 게시글 ID 저장" },
-    ],
-    sections: [
-      {
-        heading: "문제",
-        paragraphs: [
-          "MySQL에서 매번 피드 조건을 계산하는 구조는 읽기가 늘어날수록 조인, 정렬, I/O 비용이 같이 커졌습니다. 쿼리를 다듬는 것만으로는 '조회 때마다 다시 계산한다'는 구조를 바꾸기 어려웠습니다.",
-        ],
-      },
-      {
-        heading: "판단",
-        paragraphs: [
-          "피드 계산을 읽기 시점에 두기보다, 게시글 발행 시점에 사용자별 피드를 미리 준비하는 쪽이 맞았습니다. 여러 서버가 같은 기준으로 피드를 읽어야 했기 때문에 로컬 캐시보다 Redis 전역 캐시를 선택했습니다.",
-        ],
-      },
-      {
-        heading: "구조 변경",
-        bullets: [
-          "사용자별 피드 목록에는 게시글 ID만 저장하고, 본문은 다른 계층에서 읽게 했습니다.",
-          "팔로워 목록도 Redis 집합으로 관리했습니다.",
-          "만료 하나에 기대지 않고 조회 기반 정리와 활동 기반 정리를 나눴습니다.",
-          "팔로워마다 개별 삽입을 반복하지 않고 Redis 파이프라이닝으로 묶었습니다.",
-          "게시글 저장 응답과 전파 완료를 분리해 전파 작업은 비동기로 넘겼습니다.",
-        ],
-      },
-      {
-        heading: "결과",
-        paragraphs: [
-          "병목은 자료구조보다 네트워크 왕복과 명령 전송 방식에 더 가까웠습니다. 파이프라이닝으로 이 비용을 줄이면서 발행 시간과 운영 부담을 함께 낮췄습니다.",
-        ],
-      },
-    ],
-  },
-  {
     slug: "connection-pool-optimization",
     project: "SNS",
     repoUrl: "https://github.com/kangjoo2002/sns",
     sourceUrl:
       "https://github.com/kangjoo2002/sns/blob/main/portfolio/connection-pool-optimization.md",
-    title: "커넥션 풀 증설이 오히려 성능을 낮춘 원인 분석",
+    title: "스레드 덤프 분석을 통한 커넥션 풀 사이즈 하향 튜닝",
     summary:
-      "무작정 커넥션을 늘리는 방법이 컨텍스트 스위칭 오버헤드를 유발함을 입증하고, 기본 10개에서 6개로 튜닝해 성능을 안정화했습니다.",
+      "제한된 코어 내에서의 풀 증설이 스레드 경합 상태 악화를 유발함을 입증하고 서버 자원에 맞게 커넥션 상한치를 오히려 하향 최적화했습니다.",
     metrics: [
       { label: "평균 응답시간 최적화", value: "310ms → 234ms" },
       { label: "95% 응답시간 안정화", value: "1,193ms → 880ms" },
@@ -595,49 +411,6 @@ window.CASE_STUDIES = [
     ],
   },
   {
-    slug: "scale-out-over-connection-pool",
-    project: "SNS",
-    repoUrl: "https://github.com/kangjoo2002/sns",
-    sourceUrl:
-      "https://github.com/kangjoo2002/sns/blob/main/portfolio/scale-out-over-connection-pool.md",
-    title: "서버 수평 확장으로 피드 조회 처리량 개선",
-    summary:
-      "단일 인스턴스의 본질적인 CPU 한계를 여러 서버로 나누는 쪽으로 방향을 바꿔 처리량을 대폭 끌어올렸습니다.",
-    metrics: [
-      { label: "평균 응답 시간", value: "725ms → 373ms (48.5% 개선)" },
-      { label: "95% 응답 시간", value: "1,417ms → 595ms (58% 개선)" },
-      { label: "처리량 (TPS)", value: "34.3건/s → 79.1건/s (130% 상향)" },
-    ],
-    sections: [
-      {
-        heading: "문제",
-        paragraphs: [
-          "요청 대기와 커넥션 풀 대기열만 보면 단순한 커넥션 부족처럼 보였습니다. 하지만 앞서 증명했듯이 커넥션 풀 튜닝만으로는 결국 하나의 서버 안에서의 파이 나누기일 뿐 근본 한계를 부수진 못했습니다.",
-        ],
-      },
-      {
-        heading: "판단",
-        paragraphs: [
-          "피드 조회는 DB 대기와 CPU 작업이 함께 섞인 요청입니다. 한 서버 안에서 동시 처리량을 무작정 올리기보다, 서버 하나가 감당할 수 있는 수준(6개 수준)까지만 연결을 열고 요청을 여러 서버로 나누는 편이 더 완벽한 해법이었습니다.",
-        ],
-      },
-      {
-        heading: "구조 변경",
-        bullets: [
-          "커넥션 풀 상한을 조여(10개→6개) 서버 내부 경쟁 효율을 확보한 뒤 이를 기반으로 로드밸런싱 구조를 그렸습니다.",
-          "서버당 동시 DB 연결 수는 제한하고, 초과 부하는 API 서버를 수평 확장해 분산했습니다.",
-          "AWS 로드밸런서 환경에서 1대와 3대 구성을 비교해 실제 처리량 130% 향상을 성과로 증명했습니다.",
-        ],
-      },
-      {
-        heading: "결과",
-        paragraphs: [
-          "핵심은 커넥션 부족처럼 보이던 현상을 서버 내부 CPU 튜닝 문제로 다시 본 이후, 물리 자원 한계를 수평적 확장으로 뛰어넘었다는 점입니다. 이로써 매우 안정적이고 폭발적인 처리량을 획득했습니다.",
-        ],
-      },
-    ],
-  },
-  {
     slug: "redis-read-write-recovery-strategy-split",
     project: "SNS",
     repoUrl: "https://github.com/kangjoo2002/sns",
@@ -645,7 +418,7 @@ window.CASE_STUDIES = [
       "https://github.com/kangjoo2002/sns/blob/main/portfolio/redis-read-write-recovery-strategy-split.md",
     title: "Redis 장애 시 읽기와 쓰기 복구 전략 분리",
     summary:
-      "같은 Redis 장애라도 읽기는 DB 우회, 쓰기는 작업 보관 후 재처리로 나눠 대응했습니다.",
+      "단일 캐시 인프라 장애 발생 시 데이터 성격별로 폴백 우회와 보관 재처리를 나누어 시스템 전체의 복원력을 높였습니다.",
     metrics: [
       { label: "읽기 복구", value: "재시도·차단 뒤 DB 우회" },
       { label: "쓰기 복구", value: "작업 큐 보관 후 복구 시 재실행" },

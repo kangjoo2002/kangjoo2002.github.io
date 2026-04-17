@@ -407,10 +407,9 @@
 
             <article class="case-card" data-tags="hipster performance cache">
               <div class="case-chip-row"><span>Hipster</span></div>
-              <h3>차트 API 병목을 검색 경로와 메타데이터 경로로 분리</h3>
+              <h3>역할 분리를 통한 차트 조회 성능 개선</h3>
               <p>
-                차트 조회를 읽기 전용 조회 테이블, 검색, 캐시, 메타데이터 경로로
-                나눠 검색 병목과 공통 메타데이터 병목을 따로 처리했습니다.
+                단일 저장소 의존으로 인한 응답 지연을 방지하기 위해 조회 캐시, 검색, 메타데이터 조회를 분리하여 Read Path를 재설계했습니다.
               </p>
               <dl class="case-stats">
                 <div>
@@ -427,10 +426,9 @@
 
             <article class="case-card" data-tags="sns performance cache">
               <div class="case-chip-row"><span>SNS</span></div>
-              <h3>29초 걸리던 피드 조회를 중간 테이블 없이 개선</h3>
+              <h3>EXPLAIN 분석을 통한 대용량 피드 조회 최적화</h3>
               <p>
-                피드 전용 저장소를 바로 두지 않고 인덱스 정비, 개수 계산 없는
-                페이지 조회, 배치 조회, 반정규화로 먼저 읽기 경로를 줄였습니다.
+                1억 4천만 건 조인 환경에서 임시 테이블과 정렬 병목을 해소하고 @BatchSize 조회 방식을 선제 적용했습니다.
               </p>
               <dl class="case-stats">
                 <div>
@@ -450,11 +448,9 @@
 
             <article class="case-card" data-tags="hipster performance batch">
               <div class="case-chip-row"><span>Hipster</span></div>
-              <h3>차트 재생성 배치 시간이 길던 문제 해결</h3>
+              <h3>비동기 파이프라인 및 자가 치유 구조를 통한 결과적 일관성 확보</h3>
               <p>
-                배치 내부 조립 단계, 쓰기 방식, ES 재색인 단계를 나눠 병목을
-                분해하고, JDBC 집계 쿼리와 임시 적재 경로로 재생성 비용을
-                줄였습니다.
+                메시지 큐 분리와 Anti-Entropy 배치 구현을 통해 동시 경합으로 발생하는 DB 커넥션 고갈 위협을 해소했습니다.
               </p>
               <dl class="case-stats">
                 <div>
@@ -496,10 +492,9 @@
 
             <article class="case-card" data-tags="hipster batch consistency">
               <div class="case-chip-row"><span>Hipster</span></div>
-              <h3>유저 가중치 변경 시 대량 갱신이 번지던 문제 해결</h3>
+              <h3>테이블 책임 분리를 통한 연쇄 쓰기 쿼리 최적화</h3>
               <p>
-                가중치 배치가 느린 문제로 보였던 것을 원본 평점 계층의 대량 갱신
-                문제로 다시 정의하고, 직접 쓰기 범위를 줄였습니다.
+                유저 가중치 반영 시의 원본 평점 재기록 오류를 해결하고 점수 연산을 위임하여 무의미한 연쇄 쓰기를 차단했습니다.
               </p>
               <dl class="case-stats">
                 <div>
@@ -516,36 +511,12 @@
               >
             </article>
 
-            <article class="case-card" data-tags="sns cache performance">
-              <div class="case-chip-row"><span>SNS</span></div>
-              <h3>피드 발행 파이프라이닝으로 전파 비용 단축</h3>
-              <p>
-                Redis 전역 캐시 기반 발행형 피드로 읽기 경로를 옮기고, 팔로워별
-                개별 삽입 호출을 순차 실행 대신 파이프라이닝으로 묶어 발행
-                비용을 줄였습니다.
-              </p>
-              <dl class="case-stats">
-                <div>
-                  <dt>피드 발행 시간</dt>
-                  <dd>1,341ms → 101ms</dd>
-                </div>
-                <div>
-                  <dt>10,000개 사용자 피드 반영 시간</dt>
-                  <dd>8,563ms → 270ms</dd>
-                </div>
-              </dl>
-              <a href="./case.html?case=redis-feed-lifecycle-and-fanout"
-                >사례 요약 보기</a
-              >
-            </article>
-
+            
             <article class="case-card" data-tags="sns cache consistency">
               <div class="case-chip-row"><span>SNS</span></div>
-              <h3>게시글 캐시와 좋아요 계층을 분리해 경합 완화</h3>
+              <h3>DB 관통 방어를 위한 계층형 캐시 전략</h3>
               <p>
-                본문과 작성자 같은 정적 데이터, 좋아요 같은 가변 데이터를
-                분리하고, 삭제된 게시글은 빈 값으로 캐시해 캐시 관통도 함께
-                막았습니다.
+                정적, 가변 데이터를 계층 분리하여 캐싱하고 삭제된 데이터에 대해 Null Object 패턴을 반환하여 원본 조회 차단에 성공했습니다.
               </p>
               <dl class="case-stats">
                 <div>
@@ -563,36 +534,12 @@
               >
             </article>
 
-            <article class="case-card" data-tags="sns performance consistency">
-              <div class="case-chip-row"><span>SNS</span></div>
-              <h3>ProxySQL과 Orchestrator로 피드 조회 경로와 복구 체계 개선</h3>
-              <p>
-                ProxySQL이 읽기/쓰기 라우팅을 맡고 Orchestrator가 failover를
-                맡게 해, 앱이 DB 역할 전환을 직접 추적하지 않으면서 읽기 경로도
-                안정화했습니다.
-              </p>
-              <dl class="case-stats">
-                <div>
-                  <dt>피드 조회 API 평균 응답 시간</dt>
-                  <dd>319ms → 140ms</dd>
-                </div>
-                <div>
-                  <dt>피드 조회 API 95% 응답 시간</dt>
-                  <dd>1,282ms → 426ms</dd>
-                </div>
-              </dl>
-              <a href="./case.html?case=replication-proxy-failover"
-                >사례 요약 보기</a
-              >
-            </article>
-
+            
             <article class="case-card" data-tags="sns performance">
               <div class="case-chip-row"><span>SNS</span></div>
-              <h3>커넥션 풀 증설이 오히려 성능을 낮춘 원인 분석</h3>
+              <h3>스레드 덤프 분석을 통한 커넥션 풀 사이즈 하향 튜닝</h3>
               <p>
-                커넥션 대기를 줄이려 풀을 키웠지만, 피드 조회 경로에서는
-                CPU·스레드 경합이 오히려 커졌습니다. 풀 최적화만으로는 한계가
-                있음을 확인하고 확장 전략 전환의 근거를 확보했습니다.
+                제한된 코어 내에서의 풀 증설이 스레드 경합 상태 악화를 유발함을 입증하고 서버 자원에 맞게 커넥션 상한치를 오히려 하향 최적화했습니다.
               </p>
               <dl class="case-stats">
                 <div>
@@ -609,58 +556,13 @@
               >
             </article>
 
-            <article class="case-card" data-tags="sns performance">
-              <div class="case-chip-row"><span>SNS</span></div>
-              <h3>서버 수평 확장으로 피드 조회 처리량 개선</h3>
-              <p>
-                커넥션 풀을 늘리는 방식으로는 병목이 풀리지 않아, 서버를 늘려
-                CPU 경쟁과 DB 부하를 분산하는 쪽으로 방향을 바꿨습니다.
-              </p>
-              <dl class="case-stats">
-                <div>
-                  <dt>피드 조회 평균 응답 시간</dt>
-                  <dd>725ms → 373ms</dd>
-                </div>
-                <div>
-                  <dt>피드 조회 처리량</dt>
-                  <dd>34.3건/s → 79.1건/s</dd>
-                </div>
-              </dl>
-              <a href="./case.html?case=scale-out-over-connection-pool"
-                >사례 요약 보기</a
-              >
-            </article>
-
+            
+            
             <article class="case-card" data-tags="hipster design operations">
               <div class="case-chip-row"><span>Hipster</span></div>
-              <h3>정산 후 실제 지급까지 추적 가능한 상태 모델링</h3>
+              <h3>Outbox 패턴을 통한 비동기 적립 이벤트 재처리 아키텍처</h3>
               <p>
-                잔액은 맞아도 외부 지급이 타임아웃 났을 때 실제 송금 여부를
-                추적할 수 없었습니다. 요청·예약·미확정·조정 상태를 나눠 지급
-                흐름을 끝까지 따라갈 수 있게 했습니다.
-              </p>
-              <dl class="case-stats">
-                <div>
-                  <dt>핵심 기준</dt>
-                  <dd>정산 요청 단위로 상태 추적</dd>
-                </div>
-                <div>
-                  <dt>추적 범위</dt>
-                  <dd>요청 생성 → 지급 → 후속 조정</dd>
-                </div>
-              </dl>
-              <a href="./case.html?case=settlement-pay-and-reconcile"
-                >사례 요약 보기</a
-              >
-            </article>
-
-            <article class="case-card" data-tags="hipster design operations">
-              <div class="case-chip-row"><span>Hipster</span></div>
-              <h3>검증된 기여만 적립으로 인정하는 보상 원장 분리</h3>
-              <p>
-                승인과 동시에 적립하면 한도 초과나 취소 시 원장 추적이
-                끊겼습니다. 적립·차단·취소를 원장에 따로 기록해 승인 식별자 기준
-                최대 1회 적립을 보장했습니다.
+                2PC 분산 트랜잭션 수립이 어려운 환경에서, 로컬 DB 커밋과 보관 테이블을 구축하고 메시지 큐 이벤트의 멱등성을 검증했습니다.
               </p>
               <dl class="case-stats">
                 <div>
@@ -675,34 +577,12 @@
               <a href="./case.html?case=reward-ledger">사례 요약 보기</a>
             </article>
 
-            <article class="case-card" data-tags="hipster design operations">
-              <div class="case-chip-row"><span>Hipster</span></div>
-              <h3>검수 적체와 담당 전환을 운영 가능한 대기열로 재구성</h3>
-              <p>
-                상태 목록만으로는 적체 원인과 담당 전환 시점을 판단할 수
-                없었습니다. 운영 이력과 SLA 기준을 함께 붙여 운영자가 바로
-                행동할 수 있는 대기열로 바꿨습니다.
-              </p>
-              <dl class="case-stats">
-                <div>
-                  <dt>상태 기준</dt>
-                  <dd>현재 상태와 운영 이력 분리</dd>
-                </div>
-                <div>
-                  <dt>운영 장치</dt>
-                  <dd>공식 담당 전환 + 만료 회수 + SLA 가시성</dd>
-                </div>
-              </dl>
-              <a href="./case.html?case=moderation-queue">사례 요약 보기</a>
-            </article>
-
+            
             <article class="case-card" data-tags="sns design operations">
               <div class="case-chip-row"><span>SNS</span></div>
               <h3>Redis 장애 시 읽기와 쓰기 복구 전략 분리</h3>
               <p>
-                읽기는 느려져도 우회할 수 있지만, 쓰기 fan-out은 장애 순간
-                누락되면 복구 근거 자체가 사라집니다. 실패 성격이 다르다고 보고
-                복구 전략을 분리했습니다.
+                단일 캐시 인프라 장애 발생 시 데이터 성격별로 폴백 우회와 보관 재처리를 나누어 시스템 전체의 복원력을 높였습니다.
               </p>
               <dl class="case-stats">
                 <div>
