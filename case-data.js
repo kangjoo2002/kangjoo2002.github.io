@@ -3,7 +3,8 @@ window.CASE_STUDIES = [
     slug: "chart-pipeline",
     project: "Hipster",
     repoUrl: "https://github.com/kangjoo2002/hipster",
-    sourceUrl: "https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-pipeline.md",
+    sourceUrl:
+      "https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-pipeline.md",
     title: "차트 공개 기준이 저장소마다 달라지던 문제 해결",
     summary:
       "차트 계산과 공개 시점을 나누고, 캐시·검색·DB·갱신 시각이 모두 같은 공개 기준을 따르도록 맞췄습니다.",
@@ -38,7 +39,7 @@ window.CASE_STUDIES = [
       {
         heading: "결과",
         paragraphs: [
-          "공개 단계 완료 후 `publishedAt`과 `apiVisibleAt` 차이를 측정하고, Redis 공개 버전·`lastUpdated`·Elasticsearch alias·API 응답이 모두 같은 버전을 가리키는지 종단 간으로 확인했습니다. 롤백과 Redis 키 유실 상황에서도 `chart_publish_state.current_version` 한 기준으로 복원 가능한지 함께 검증했습니다. 배치 완료와 공개 완료가 분리되면서, 이전에는 설명하기 어려웠던 \"어느 버전이 지금 노출 중인가\"를 단일 기준으로 말할 수 있게 됐습니다.",
+          '공개 단계 완료 후 `publishedAt`과 `apiVisibleAt` 차이를 측정하고, Redis 공개 버전·`lastUpdated`·Elasticsearch alias·API 응답이 모두 같은 버전을 가리키는지 종단 간으로 확인했습니다. 롤백과 Redis 키 유실 상황에서도 `chart_publish_state.current_version` 한 기준으로 복원 가능한지 함께 검증했습니다. 배치 완료와 공개 완료가 분리되면서, 이전에는 설명하기 어려웠던 "어느 버전이 지금 노출 중인가"를 단일 기준으로 말할 수 있게 됐습니다.',
         ],
       },
       {
@@ -55,7 +56,8 @@ window.CASE_STUDIES = [
     slug: "chart-serving",
     project: "Hipster",
     repoUrl: "https://github.com/kangjoo2002/hipster",
-    sourceUrl: "https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-serving.md",
+    sourceUrl:
+      "https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-serving.md",
     title: "차트 API 병목을 검색 경로와 메타데이터 경로로 분리",
     summary:
       "차트 API를 한 덩어리 조회로 다루지 않고, 캐시·검색·공통 정보·우회 조회로 나눠 병목을 줄였습니다.",
@@ -100,7 +102,8 @@ window.CASE_STUDIES = [
     slug: "chart-batch-performance",
     project: "Hipster",
     repoUrl: "https://github.com/kangjoo2002/hipster",
-    sourceUrl: "https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-batch-performance.md",
+    sourceUrl:
+      "https://github.com/kangjoo2002/hipster/blob/main/portfolio/chart-batch-performance.md",
     title: "차트 재생성 배치 시간이 길던 문제 해결",
     summary:
       "차트 재생성 배치를 한 덩어리로 보지 않고, 조립·DB 적재·검색 인덱싱 단계로 나눠 병목을 줄였습니다.",
@@ -143,7 +146,8 @@ window.CASE_STUDIES = [
     slug: "rating-aggregation",
     project: "Hipster",
     repoUrl: "https://github.com/kangjoo2002/hipster",
-    sourceUrl: "https://github.com/kangjoo2002/hipster/blob/main/portfolio/rating-aggregation.md",
+    sourceUrl:
+      "https://github.com/kangjoo2002/hipster/blob/main/portfolio/rating-aggregation.md",
     title: "원본 평점 테이블에 몰린 조회·갱신 부담 분리",
     summary:
       "원본 평점 저장과 사용자에게 보여줄 집계 결과를 분리해, 조회와 등록이 서로 발목 잡지 않게 만들었습니다.",
@@ -186,7 +190,8 @@ window.CASE_STUDIES = [
     slug: "user-credibility-batch",
     project: "Hipster",
     repoUrl: "https://github.com/kangjoo2002/hipster",
-    sourceUrl: "https://github.com/kangjoo2002/hipster/blob/main/portfolio/user-credibility-batch.md",
+    sourceUrl:
+      "https://github.com/kangjoo2002/hipster/blob/main/portfolio/user-credibility-batch.md",
     title: "유저 가중치 변경이 대량 갱신으로 번지던 문제 해결",
     summary:
       "가중치 계산 속도보다, 가중치 변경이 원본 평점 전체 수정으로 퍼지는 구조를 먼저 줄였습니다.",
@@ -273,7 +278,8 @@ window.CASE_STUDIES = [
     slug: "reward-ledger",
     project: "Hipster",
     repoUrl: "https://github.com/kangjoo2002/hipster",
-    sourceUrl: "https://github.com/kangjoo2002/hipster/blob/main/portfolio/reward-ledger.md",
+    sourceUrl:
+      "https://github.com/kangjoo2002/hipster/blob/main/portfolio/reward-ledger.md",
     title: "검증된 기여만 적립으로 인정하는 보상 원장 분리",
     summary:
       "검수 승인과 적립을 한 트랜잭션에 묶지 않고, 적립·차단·취소를 원장에 따로 남기도록 나눴습니다.",
@@ -316,7 +322,8 @@ window.CASE_STUDIES = [
     slug: "moderation-queue",
     project: "Hipster",
     repoUrl: "https://github.com/kangjoo2002/hipster",
-    sourceUrl: "https://github.com/kangjoo2002/hipster/blob/main/portfolio/moderation-queue.md",
+    sourceUrl:
+      "https://github.com/kangjoo2002/hipster/blob/main/portfolio/moderation-queue.md",
     title: "검수 적체와 담당 전환을 운영 가능한 대기열로 재구성",
     summary:
       "검수 요청을 상태 목록이 아니라 담당자, 이력, SLA가 함께 보이는 운영 대기열로 바꿨습니다.",
@@ -549,11 +556,14 @@ window.CASE_STUDIES = [
       "https://github.com/kangjoo2002/sns/blob/main/portfolio/connection-pool-optimization.md",
     title: "커넥션 풀 증설이 오히려 성능을 낮춘 원인 분석",
     summary:
-      "커넥션 수를 늘리면 좋아질 것이라는 가설을 검증했지만, 피드 조회에서는 CPU·스레드 경합이 더 크게 드러나 풀 최적화만으로는 한계가 있음을 확인했습니다.",
+      "무작정 커넥션을 늘리는 방법이 컨텍스트 스위칭 오버헤드를 유발함을 입증하고, 기본 10개에서 6개로 튜닝해 성능을 안정화했습니다.",
     metrics: [
-      { label: "커넥션 50개 실험", value: "응답 지표 악화 + RUNNING 스레드 증가" },
-      { label: "커넥션 6개 실험", value: "50개 대비 더 안정 + 최장 RUNNING 약 10,000ms" },
-      { label: "핵심 판단", value: "풀 증설 단독 해법 한계 확인" },
+      { label: "평균 응답시간 최적화", value: "310ms → 234ms (24.5% 단축)" },
+      { label: "95% 응답시간 안정화", value: "1,193ms → 880ms (26.2% 단축)" },
+      {
+        label: "50개 증설 부작용 규명",
+        value: "지연 시간 최대 4.5만 ms 역효과 입증",
+      },
     ],
     sections: [
       {
@@ -571,15 +581,15 @@ window.CASE_STUDIES = [
       {
         heading: "구조 변경",
         bullets: [
-          "커넥션 풀 확장(50)과 축소(6) 실험을 비교해 단일 가설을 검증했습니다.",
-          "대기 시간만 보지 않고 RUNNING 스레드 길이와 경합 증가를 함께 관찰했습니다.",
-          "풀 최적화는 적정값 탐색으로 제한하고, 이후 확장 전략으로 의사결정 경계를 분리했습니다.",
+          "응답 지연 파악 후, 의도적으로 커넥션 풀을 50개로 폭증시켜 컨텍스트 스위칭 악화 지표를 검증했습니다.",
+          "이를 바탕으로 동시 실행 스레드를 제어하기 위해 기본 풀(10개)을 6개로 과감히 축소 튜닝했습니다.",
+          "단일 서버 내부 처리 최적화의 한계를 파악하고, 수평 확장 전략으로 의사결정 경계를 전환했습니다.",
         ],
       },
       {
         heading: "결과",
         paragraphs: [
-          "커넥션을 늘리는 방식은 병목을 줄이기보다 동시 실행 경쟁을 키울 수 있음을 확인했습니다. 그 결과 커넥션 풀 최적화는 전제 확인 단계로 정리되고, 최종 개선 방향은 수평 확장으로 전환됐습니다.",
+          "커넥션을 늘리는 방식은 병목을 줄이기보다 동시 실행 경쟁을 키울 수 있음을 데이터로 확인했습니다. 6개 최적화를 통해 로컬 효율을 극대화한 뒤, 최종 개선 방향을 아키텍처 수평 확장으로 이어갔습니다.",
         ],
       },
     ],
@@ -592,37 +602,37 @@ window.CASE_STUDIES = [
       "https://github.com/kangjoo2002/sns/blob/main/portfolio/scale-out-over-connection-pool.md",
     title: "서버 수평 확장으로 피드 조회 처리량 개선",
     summary:
-      "커넥션 풀 확대 대신 서버를 늘려 CPU 경쟁과 DB 부하를 나누는 쪽으로 방향을 바꿔 처리량을 끌어올렸습니다.",
+      "단일 인스턴스의 본질적인 CPU 한계를 여러 서버로 나누는 쪽으로 방향을 바꿔 처리량을 대폭 끌어올렸습니다.",
     metrics: [
-      { label: "평균 응답 시간", value: "725ms → 373ms" },
-      { label: "95% 응답 시간", value: "1,417ms → 595ms" },
-      { label: "처리량", value: "34.3건/s → 79.1건/s" },
+      { label: "평균 응답 시간", value: "725ms → 373ms (48.5% 개선)" },
+      { label: "95% 응답 시간", value: "1,417ms → 595ms (58% 개선)" },
+      { label: "처리량 (TPS)", value: "34.3건/s → 79.1건/s (130% 상향)" },
     ],
     sections: [
       {
         heading: "문제",
         paragraphs: [
-          "요청 대기와 커넥션 풀 대기열만 보면 단순한 커넥션 부족처럼 보였습니다. 풀 크기를 키우면 해결될 것 같았지만, 실제로는 커넥션 수가 늘수록 스레드 경쟁과 컨텍스트 스위칭이 더 심해졌습니다.",
+          "요청 대기와 커넥션 풀 대기열만 보면 단순한 커넥션 부족처럼 보였습니다. 하지만 앞서 증명했듯이 커넥션 풀 튜닝만으로는 결국 하나의 서버 안에서의 파이 나누기일 뿐 근본 한계를 부수진 못했습니다.",
         ],
       },
       {
         heading: "판단",
         paragraphs: [
-          "피드 조회는 DB 대기와 CPU 작업이 함께 섞인 요청입니다. 한 서버 안에서 동시 처리량을 무작정 올리기보다, 서버 하나가 감당할 수 있는 수준까지만 연결을 열고 요청을 여러 서버로 나누는 편이 더 안정적이었습니다.",
+          "피드 조회는 DB 대기와 CPU 작업이 함께 섞인 요청입니다. 한 서버 안에서 동시 처리량을 무작정 올리기보다, 서버 하나가 감당할 수 있는 수준(6개 수준)까지만 연결을 열고 요청을 여러 서버로 나누는 편이 더 완벽한 해법이었습니다.",
         ],
       },
       {
         heading: "구조 변경",
         bullets: [
-          "커넥션 수를 크게 늘린 구성과 적정 수준으로 묶은 구성을 비교해 CPU 경쟁을 확인했습니다.",
+          "커넥션 풀 상한을 조여(10개→6개) 서버 내부 경쟁 효율을 확보한 뒤 이를 기반으로 로드밸런싱 구조를 그렸습니다.",
           "서버당 동시 DB 연결 수는 제한하고, 초과 부하는 API 서버를 수평 확장해 분산했습니다.",
-          "로드밸런서 환경에서 1대와 3대 구성을 비교해 실제 처리량 차이를 검증했습니다.",
+          "AWS 로드밸런서 환경에서 1대와 3대 구성을 비교해 실제 처리량 130% 향상을 성과로 증명했습니다.",
         ],
       },
       {
         heading: "결과",
         paragraphs: [
-          "핵심은 커넥션 부족처럼 보이던 현상을 서버 내부 경쟁까지 포함한 문제로 다시 본 점입니다. 그 덕분에 더 안정적인 확장 방법을 선택할 수 있었습니다.",
+          "핵심은 커넥션 부족처럼 보이던 현상을 서버 내부 CPU 튜닝 문제로 다시 본 이후, 물리 자원 한계를 수평적 확장으로 뛰어넘었다는 점입니다. 이로써 매우 안정적이고 폭발적인 처리량을 획득했습니다.",
         ],
       },
     ],
